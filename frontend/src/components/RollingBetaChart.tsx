@@ -82,13 +82,15 @@ export default function RollingBetaChart({ data, window }: Props) {
         ticks: {
           color: "#888",
           maxRotation: 0,
-          autoSkip: true,
-          maxTicksLimit: 10,
+          autoSkip: false,
           callback: function (_val, index) {
             const date = labels[index];
             if (!date) return "";
             const d = new Date(date);
-            if (d.getMonth() === 0 && d.getDate() <= 10) return String(d.getFullYear());
+            // Show year label on the first trading day of each year
+            if (index === 0) return String(d.getFullYear());
+            const prev = new Date(labels[index - 1]);
+            if (d.getFullYear() !== prev.getFullYear()) return String(d.getFullYear());
             return "";
           },
         },
