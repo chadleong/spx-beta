@@ -17,8 +17,10 @@ def _fetch_yfinance(start: datetime, end: datetime):
         raise ValueError("Empty response from Yahoo Finance")
 
     # SPX returns in % (×100) so beta units match: % SPX move per 1pp yield change
-    spx_returns = spx["Close"].pct_change().dropna() * 100
-    tny_changes = tny["Close"].diff().dropna()
+    spx_close = spx["Close"].squeeze()
+    tny_close = tny["Close"].squeeze()
+    spx_returns = spx_close.pct_change().dropna() * 100
+    tny_changes = tny_close.diff().dropna()
     return pd.DataFrame({"spx": spx_returns, "tny": tny_changes}).dropna()
 
 
@@ -97,4 +99,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=4000, debug=False)
+    app.run(host="0.0.0.0", port=3000, debug=False)
