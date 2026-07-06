@@ -2,7 +2,9 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+import json
+import os
+from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
 CORS(app)
@@ -81,6 +83,20 @@ def compute_rolling_beta(window: int = 21, use_synthetic: bool = False) -> tuple
     return betas, source
 
 
+def write_beta_json(filepath: str = "data/rolling_beta.json", **kwargs):
+    data, source = compute_rolling_beta(**kwargs)
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    payload = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "source": source,
+        "window": kwargs.get("window", 21),
+        "data": data,
+    }
+    with open(filepath, "w") as f:
+        json.dump(payload, f, indent=2)
+    return filepath, len(data)
+
+
 @app.route("/api/rolling-beta")
 def rolling_beta():
     try:
@@ -99,4 +115,5 @@ def health():
 
 
 if __name__ == "__main__":
+    write_beta_json()
     app.run(host="0.0.0.0", port=3000, debug=False)
