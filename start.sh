@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+
+# Use the project virtualenv if present
+if [ -f "$ROOT/.venv/bin/activate" ]; then
+  # shellcheck disable=SC1091
+  source "$ROOT/.venv/bin/activate"
+fi
+
 # Start Flask backend
 echo "Starting backend on port 5000..."
-cd "$(dirname "$0")/backend"
-python3 app.py &
+(cd "$ROOT/backend" && exec python3 app.py) &
 BACKEND_PID=$!
 
 # Start Vite dev server
 echo "Starting frontend on port 3000..."
-cd "$(dirname "$0")/frontend"
-npm run dev &
+(cd "$ROOT/frontend" && exec npm run dev) &
 FRONTEND_PID=$!
 
 echo ""
