@@ -10,7 +10,7 @@ if [ -f "$ROOT/.venv/bin/activate" ]; then
 fi
 
 # Start Flask backend
-echo "Starting backend on port 5000..."
+echo "Starting backend on port 3000..."
 (cd "$ROOT/backend" && exec python3 app.py) &
 BACKEND_PID=$!
 
@@ -20,8 +20,8 @@ echo "Starting frontend on port 4000..."
 FRONTEND_PID=$!
 
 echo ""
-echo "  Backend:  http://localhost:5000"
-echo "  Frontend: http://localhost:3000"
+echo "  Backend:  http://localhost:3000"
+echo "  Frontend: http://localhost:4000"
 echo ""
 echo "Press Ctrl+C to stop both servers."
 

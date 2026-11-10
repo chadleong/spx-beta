@@ -20,7 +20,7 @@ export default function App() {
     setStatus("loading");
     setError("");
     try {
-      const res = await fetch(`/api/rolling-beta?window=${win}`);
+      const res = await fetch(`/api/rolling-beta?window=${win}`, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
       if (json.status !== "ok") throw new Error(json.message ?? "Unknown error");
