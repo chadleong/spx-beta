@@ -83,8 +83,11 @@ def compute_rolling_beta(window: int = 21, use_synthetic: bool = False) -> tuple
     return betas, source
 
 
-def write_beta_json(filepath: str = "data/rolling_beta.json", **kwargs):
+def write_beta_json(filepath: str | None = None, **kwargs):
     data, source = compute_rolling_beta(**kwargs)
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if filepath is None:
+        filepath = f"data/rolling_beta_{today}.json"
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),

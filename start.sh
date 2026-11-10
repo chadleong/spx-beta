@@ -4,7 +4,7 @@ set -e
 # Start Flask backend
 echo "Starting backend on port 5000..."
 cd "$(dirname "$0")/backend"
-python3 app.py &
+py app.py &
 BACKEND_PID=$!
 
 # Start Vite dev server
@@ -15,7 +15,7 @@ FRONTEND_PID=$!
 
 echo ""
 echo "  Backend:  http://localhost:5000"
-echo "  Frontend: http://localhost:3000"
+echo "  Frontend: http://localhost:4000"
 echo ""
 echo "Press Ctrl+C to stop both servers."
 
