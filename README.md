@@ -54,7 +54,7 @@ bash start.sh
 | `GET /api/rolling-beta?synthetic=true` | Force synthetic data |
 | `GET /api/health` | Health check |
 
-On startup, `app.py` also writes the computed data to `backend/data/rolling_beta.json`.
+On startup, `app.py` also writes the computed data to `backend/data/rolling_beta_YYYY-MM-DD.json`.
 
 ## Data sources
 
